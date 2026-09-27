@@ -1,0 +1,101 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+
+	"flightres/airline"
+)
+
+const dataFile = "flights_data.json"
+
+func main() {
+	dir := airline.Load(dataFile)
+	scanner := bufio.NewScanner(os.Stdin)
+
+	for {
+		fmt.Println("\n1)Schedule 2)Find 3)Reserve 4)Cancel 5)List 6)Exit")
+		fmt.Print("Choice: ")
+		scanner.Scan()
+		choice := strings.TrimSpace(scanner.Text())
+
+		switch choice {
+		case "1":
+			fmt.Print("Flight number: ")
+			scanner.Scan()
+			num := scanner.Text()
+			fmt.Print("Origin: ")
+			scanner.Scan()
+			origin := scanner.Text()
+			fmt.Print("Destination: ")
+			scanner.Scan()
+			dest := scanner.Text()
+			fmt.Print("Capacity: ")
+			scanner.Scan()
+			capacity, _ := strconv.Atoi(scanner.Text())
+
+			f := airline.Flight{FlightNumber: num, Origin: origin, Destination: dest, Capacity: capacity}
+			if err := dir.ScheduleFlight(f); err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				dir.Save(dataFile)
+				fmt.Println("Scheduled and saved.")
+			}
+
+		case "2":
+			fmt.Print("Flight number: ")
+			scanner.Scan()
+			f, err := dir.FindFlight(scanner.Text())
+			if err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				fmt.Printf("%+v\n", *f)
+			}
+
+		case "3":
+			fmt.Print("Flight number: ")
+			scanner.Scan()
+			num := scanner.Text()
+			fmt.Print("Seats to reserve: ")
+			scanner.Scan()
+			count, _ := strconv.Atoi(scanner.Text())
+
+			if err := dir.ReserveSeat(num, count); err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				dir.Save(dataFile)
+				fmt.Println("Reserved and saved.")
+			}
+
+		case "4":
+			fmt.Print("Flight number: ")
+			scanner.Scan()
+			if err := dir.CancelFlightRoute(scanner.Text()); err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				dir.Save(dataFile)
+				fmt.Println("Cancelled and saved.")
+			}
+
+		case "5":
+			for _, f := range dir.AllFlights() {
+				fmt.Printf("%+v\n", f)
+			}
+
+		case "6":
+			fmt.Println("Bye. Data saved in", dataFile)
+			return
+
+		default:
+			fmt.Println("Invalid choice.")
+		}
+
+		if err := scanner.Err(); err != nil {
+			fmt.Fprintln(os.Stderr, "Error reading input:", err)
+			return
+		}
+	}
+}

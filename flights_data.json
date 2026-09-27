@@ -1,0 +1,30 @@
+[
+  {
+    "flight_number": "2",
+    "origin": "up",
+    "destination": "ap",
+    "capacity": 2,
+    "booked_seats": 0
+  },
+  {
+    "flight_number": "1",
+    "origin": "AP",
+    "destination": "UP",
+    "capacity": 5,
+    "booked_seats": 0
+  },
+  {
+    "flight_number": "20",
+    "origin": "ap",
+    "destination": "up",
+    "capacity": 3,
+    "booked_seats": 0
+  },
+  {
+    "flight_number": "7",
+    "origin": "Go",
+    "destination": "Del",
+    "capacity": 6,
+    "booked_seats": 0
+  }
+]
