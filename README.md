@@ -16,7 +16,7 @@ file persistence with `encoding/json`.
 ## Project Structure
 
 ```
-Golang-CA1/
+Golang-CA2/
 ├── go.mod
 ├── main.go              # CLI entry point (parses os.Args)
 ├── flights_data.json     # created automatically on first save
@@ -57,8 +57,8 @@ type Flight struct {
 ### Clone and run
 
 ```bash
-git clone https://github.com/tamilselvan-v07/Golang-CA1.git
-cd Golang-CA1
+git clone https://github.com/tamilselvan-v07/Golang-CA2.git
+cd Golang-CA2
 go run main.go
 ```
 
